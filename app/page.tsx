@@ -1,4 +1,4 @@
-import { CustomFilter, Hero, SearchBar, CarCard } from "@/components";
+import { CustomFilter, Hero, SearchBar, CarCard, ShowMore } from "@/components";
 import { fuels, yearsOfProduction } from "@/constants";
 import { fetchCars } from "@/utils";
 import Image from "next/image";
@@ -17,7 +17,7 @@ export default async function Home({ searchParams }) {
       <Hero />
       <div className="mt-12 padding-x padding-y max-width" id="discover">
         <div className="home__text-container">
-          <h1 className="text-4xl font-extrabold">Car Catalog</h1>
+          <h1 className="text-4xl font-extrabold">Car Catalogue</h1>
           <p> Explore the cars to find out what you like!</p>
         </div>
 
@@ -30,11 +30,18 @@ export default async function Home({ searchParams }) {
         </div>
 
         {!isDataEmpty ? (
-          <div className="home__cars-wrapper">
-            {allCars?.map((car) => (
-              <CarCard car={car} />
-            ))}
-          </div>
+          <section>
+            <div className="home__cars-wrapper">
+              {allCars?.map((car) => (
+                <CarCard car={car} />
+              ))}
+            </div>
+
+            <ShowMore
+              pageNumber={(searchParams.limit || 10) / 10}
+              isNext={(searchParams.limit || 10) > allCars.length}
+            />
+          </section>
         ) : (
           <div className="home__error-container">
             <h2 className="text-blac text-xl font-bold">Oops, no results</h2>
